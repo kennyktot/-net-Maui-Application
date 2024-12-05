@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MyFirstApplication"
+             x:Class="MyFirstApplication.MainPage"
+             Shell.BackgroundColor ="{AppThemeBinding Light={StaticResource CustomLightBlue},
+                              Dark={StaticResource CustomDarkGrey}}"
+             Shell.ForegroundColor="{AppThemeBinding Light=Black,Dark=White}">
+
+    <!-- BindingContext to the ViewModel -->
+    <ContentPage.BindingContext>
+        <vm:MainPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Secondary" Text="History"/>
+        <ToolbarItem Order="Secondary" Text="Choose Theme"/>
+        <ToolbarItem Order="Secondary" Text="Privacy Policy"/>
+        <ToolbarItem Order="Secondary" Text="Send Feedbacks"/>
+        <ToolbarItem Order="Secondary" Text="Help"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <Style x:Key="BaseCalculatorButtonStyle" TargetType="Button">
+            <Setter Property="WidthRequest" Value="80"/>
+            <Setter Property="HeightRequest" Value="80"/>
+            <Setter Property="CornerRadius" Value="40"/>
+            <Setter Property="TextColor" Value="{AppThemeBinding Light=Black, Dark=White}"/>
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="Command" Value="{Binding HandleButtonPressCommand}"/>
+            <Setter Property="CommandParameter" Value="{Binding Source={RelativeSource Self}, Path=Text}"/>
+        </Style>
+        <Style x:Key="NumberButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseCalculatorButtonStyle}">
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CustomLightGreen}, Dark={StaticResource CustomDarkGrey}}"/>
+            <Setter Property="TextColor" Value="{AppThemeBinding Light=DarkSlateGrey, Dark={StaticResource CustomLightBlue}}"/>
+        </Style>
+        <Style x:Key="OperatorButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseCalculatorButtonStyle}">
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CustomBlue}, Dark={StaticResource CustomDarkBlue}}"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="200,*">
+        <!-- Display Section -->
+        <Border StrokeShape="RoundRectangle 0 0 25 25"
+                Stroke="Transparent"
+                Background="{AppThemeBinding Light={StaticResource CustomLightBlue}, Dark={StaticResource CustomDarkGrey}}">
+            <VerticalStackLayout>
+                <!-- CalcDisplay Entry with TwoWay Binding -->
+                <Entry Text="{Binding CalcDisplay, Mode=TwoWay}"
+                       CursorPosition="{Binding CursorPosition, Mode=TwoWay}"
+                       HorizontalTextAlignment="End"
+                       FontSize="75"
+                       TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                <!-- Result Label -->
+                <Label Text="{Binding Result}"
+                       HorizontalTextAlignment="End"
+                       FontSize="50"
+                       TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Buttons Section -->
+        <Grid Grid.Row="1"
+              RowDefinitions="*,*,*,*,* "
+              ColumnDefinitions="*,*,*,*">
+            <!-- Buttons using Styles and Command Bindings -->
+            <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource OperatorButtonStyle}" Text="AC" CommandParameter="AC"/>
+            <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource OperatorButtonStyle}" Text="( )" CommandParameter="(  )"/>
+            <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource OperatorButtonStyle}" Text="%" CommandParameter="%"/>
+            <Button Grid.Row="0" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}" Text="÷" CommandParameter="÷"/>
+            <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource NumberButtonStyle}" Text="7" CommandParameter="7"/>
+            <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource NumberButtonStyle}" Text="8" CommandParameter="8"/>
+            <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Text="9" CommandParameter="9"/>
+            <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}" Text="X" CommandParameter="×"/>
+            <Button Grid.Row="2" Grid.Column="0" Style="{StaticResource NumberButtonStyle}" Text="4" CommandParameter="4"/>
+            <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource NumberButtonStyle}" Text="5" CommandParameter="5"/>
+            <Button Grid.Row="2" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Text="6" CommandParameter="6"/>
+            <Button Grid.Row="2" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}" Text="-" CommandParameter="-"/>
+            <Button Grid.Row="3" Grid.Column="0" Style="{StaticResource NumberButtonStyle}" Text="1" CommandParameter="1"/>
+            <Button Grid.Row="3" Grid.Column="1" Style="{StaticResource NumberButtonStyle}" Text="2" CommandParameter="2"/>
+            <Button Grid.Row="3" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Text="3" CommandParameter="3"/>
+            <Button Grid.Row="3" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}" Text="+" CommandParameter="+"/>
+            <Button Grid.Row="4" Grid.Column="0" Style="{StaticResource NumberButtonStyle}" Text="0" CommandParameter="0"/>
+            <Button Grid.Row="4" Grid.Column="1" Style="{StaticResource NumberButtonStyle}" Text="." CommandParameter="."/>
+            <Button Grid.Row="4" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Text="DEL" CommandParameter="DEL"/>
+            <Button Grid.Row="4" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}" Text="=" CommandParameter="="/>
+        </Grid>
+    </Grid>
+</ContentPage>
